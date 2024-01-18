@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Profile Page";
+}
+
+@model UserProfileViewModel
+
+<div class="text-center">
+
+    <!-- Add profile-related information here -->
+    <p>Username: @Model.UserName </p>
+    <p>E-mail: @Model.Email</p>
+    <p>Confirmed: @Model.EmailConfirmed</p>
+    <p>Roles: 
+        @foreach (var role in @Model.Roles)
+        {
+            <span>@role</span>
+        }
+    </p>
+    <!-- Add more profile details as needed -->
+    <!-- Add options to edit profile or perform other actions -->
+    <div>
+        <a class="btn btn-primary" href="/Account/EditProfile">Edit Profile</a>
+        <!-- Add more action buttons as needed -->
+    </div>
+</div>

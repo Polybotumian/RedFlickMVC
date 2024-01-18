@@ -1,0 +1,60 @@
+﻿<div class="modal fade" id="addMovieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Movie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your form goes here -->
+                <form method="post" id="addMovieForm" action="/Movie/add">
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="Title" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="Description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieCategories" class="form-label">Categories</label>
+                        <select multiple class="form-control" id="movieCategories" name="SelectedCategories">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedCategories" name="SelectedCategories" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieActors" class="form-label">Actors</label>
+                        <select multiple class="form-control" id="movieActors" name="SelectedActors">
+                            @foreach (var actor in Model.Actors)
+                            {
+                                <option value="@actor.Id">@actor.Name @actor.Surname</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedActors" name="SelectedActors" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieDirectors" class="form-label">Directors</label>
+                        <select multiple class="form-control" id="movieDirectors" name="SelectedDirectors">
+                            @foreach (var director in Model.Directors)
+                            {
+                                <option value="@director.Id">@director.Name @director.Surname</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedDirectors" name="SelectedDirectors" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

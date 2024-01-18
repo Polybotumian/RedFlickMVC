@@ -1,0 +1,339 @@
+﻿@{
+    ViewData["Title"] = "Movies Page";
+}
+
+@model AllViewModel
+
+@if (User.Identity.IsAuthenticated)
+{
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal">
+        Add New Movie
+    </button>
+}
+
+<div class="container">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <table id="moviesTable" class="display">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Categories</th>
+                    <th>Actors</th>
+                    <th>Directors</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var movie in Model.Movies)
+                {
+                    <tr id="@movie.Id">
+                        <td>@movie.Title</td>
+                        <td>@movie.Description</td>
+                        <td>@string.Join(", ", movie.Categories.Select(category => category.Name))</td>
+                        <td>@string.Join(", ", movie.Actors.Select(actor => $"{actor.Name} {actor.Surname}"))</td>
+                        <td>@string.Join(", ", movie.Directors.Select(director => $"{director.Name} {director.Surname}"))</td>
+                        <td>
+                            <!-- Buttons for Update and Remove -->
+                            <button class="btn btn-warning" onclick="editMovie('@movie.Id')">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteMovie('@movie.Id')">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table id="moviesTable" class="display">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Categories</th>
+                    <th>Actors</th>
+                    <th>Directors</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var movie in Model.Movies)
+                {
+                    <tr>
+                        <td>@movie.Title</td>
+                        <td>@movie.Description</td>
+                        <td>@string.Join(", ", movie.Categories.Select(category => category.Name))</td>
+                        <td>@string.Join(", ", movie.Actors.Select(actor => $"{actor.Name} {actor.Surname}"))</td>
+                        <td>@string.Join(", ", movie.Directors.Select(director => $"{director.Name} {director.Surname}"))</td>
+                        <td>
+                            Not Authorized
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@await Component.InvokeAsync("MovieModal", Model)
+
+<!-- Modal -->
+@* <div class="modal fade" id="addMovieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Movie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your form goes here -->
+                <form method="post" id="addMovieForm" action="/Movie/add">
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="Title" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="Description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieCategories" class="form-label">Categories</label>
+                        <select multiple class="form-control" id="movieCategories" name="SelectedCategories">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedCategories" name="SelectedCategories" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieActors" class="form-label">Actors</label>
+                        <select multiple class="form-control" id="movieActors" name="SelectedActors">
+                            @foreach (var actor in Model.Actors)
+                            {
+                                <option value="@actor.Id">@actor.Name @actor.Surname</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedActors" name="SelectedActors" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieDirectors" class="form-label">Directors</label>
+                        <select multiple class="form-control" id="movieDirectors" name="SelectedDirectors">
+                            @foreach (var director in Model.Directors)
+                            {
+                                <option value="@director.Id">@director.Name @director.Surname</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedDirectors" name="SelectedDirectors" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+<div class="modal fade" id="updateMovieModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Update Movie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your form goes here -->
+                <form method="post" id="updateMovieForm" action="/Movie/update">
+                    <input type="hidden" id="id1" name="Id1" />
+                    <input type="number" class="form-control" id="id1" name="Id" required>
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title1" name="Title" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description1" name="Description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieCategories" class="form-label">Categories</label>
+                        <select multiple class="form-control" id="movieCategories1" name="SelectedCategories1">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedCategories1" name="SelectedCategories1" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieActors" class="form-label">Actors</label>
+                        <select multiple class="form-control" id="movieActors1" name="SelectedActors1">
+                            @foreach (var actor in Model.Actors)
+                            {
+                                <option value="@actor.Id">@actor.Name @actor.Surname</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedActors1" name="SelectedActors1" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="movieDirectors" class="form-label">Directors</label>
+                        <select multiple class="form-control" id="movieDirectors1" name="SelectedDirectors1">
+                            @foreach (var director in Model.Directors)
+                            {
+                                <option value="@director.Id">@director.Name @director.Surname</option>
+                            }
+                        </select>
+                        <input type="hidden" id="selectedDirectors1" name="SelectedDirectors1" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $('#addMovieForm').submit(function (e) {
+            $('#selectedCategories').val($('#movieCategories').val());
+            $('#selectedActors').val($('#movieActors').val());
+            $('#selectedDirectors').val($('#movieDirectors').val());
+
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Movie Added Successfully!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    setTimeout(function () {
+                        $('#addMovieModal').modal('hide');
+                        location.reload();
+                    }, 1500);
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... Something went wrong!',
+                        text: 'Failed to add the movie.',
+                    });
+                }
+            });
+        });
+
+        function deleteMovie(movieId) {
+            console.log('Delete movie with ID: ');
+
+            $.ajax({
+                url: '/Movie/Delete/' + movieId,
+                type: 'POST',
+                data: { id: movieId },
+                success: function (data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Movie Deleted Successfully!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    location.reload();
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops... Something went wrong!',
+                        text: 'Failed to delete the movie.',
+                    });
+                }
+            });
+        }
+
+        function editMovie(movieId) {
+            var table = $('#moviesTable').DataTable();
+
+            var row = table.rows().eq(0).filter(function (rowIdx) {
+                return table.row(rowIdx).id() == movieId;
+            });
+
+            if (!row || row.length === 0) {
+                console.error('Row not found for movie ID:', movieId);
+                return;
+            }
+
+            var data = table.row(row).data();
+            if (!data) {
+                console.error('No data found for movie ID:', movieId);
+                return;
+            }
+
+            var title = data.Title;
+            var description = data.Description;
+            var categories = data.Categories;
+            var actors = data.Actors;
+            var directors = data.Directors;
+
+            $('#id1').val(data.id);
+            $('#title1').val(title);
+            $('#description1').val(description);
+
+            $('#movieCategories1').val(categories.split(', ')).trigger('change');
+            $('#movieActors1').val(actors.split(', ')).trigger('change');
+            $('#movieDirectors1').val(directors.split(', ')).trigger('change');
+
+            $('#updateMovieModal').modal('show');
+        }
+
+
+
+
+        $(document).ready(function () {
+            $('#moviesTable').DataTable({
+                "processing": false,
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                // "serverSide": true,
+                // "ajax": {
+                //     "url": "/Movie/LoadData",
+                //     "type": "POST",
+                //     "contentType": "application/json",
+                //     "data": function (d) {
+                //         return JSON.stringify({ draw: d.draw, start: d.start, length: d.length });
+                //     }
+                // },
+                "columns": [
+                    { "data": "Title" },
+                    { "data": "Description" },
+                    { "data": "Categories" },
+                    { "data": "Actors" },
+                    { "data": "Directors" },
+                    { "data": "Actions" }
+                ]
+            });
+        });
+
+    </script>
+}
