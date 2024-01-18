@@ -12,7 +12,7 @@ using RedFlickMVC;
 namespace RedFlickMVC.Migrations
 {
     [DbContext(typeof(RedFlickDbContext))]
-    [Migration("20240118094059_initial")]
+    [Migration("20240118113953_initial")]
     partial class initial
     {
         /// <inheritdoc />

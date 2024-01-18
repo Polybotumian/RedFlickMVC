@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Movies Page";
 }
-
+@using RedFlickMVC.Helpers
 @model AllViewModel
 
 @if (User.Identity.IsAuthenticated)
@@ -17,6 +17,7 @@
         <table id="moviesTable" class="display">
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Categories</th>
@@ -29,6 +30,7 @@
                 @foreach (var movie in Model.Movies)
                 {
                     <tr id="@movie.Id">
+                        <td>@movie.Id</td>
                         <td>@movie.Title</td>
                         <td>@movie.Description</td>
                         <td>@string.Join(", ", movie.Categories.Select(category => category.Name))</td>
@@ -36,8 +38,8 @@
                         <td>@string.Join(", ", movie.Directors.Select(director => $"{director.Name} {director.Surname}"))</td>
                         <td>
                             <!-- Buttons for Update and Remove -->
-                            <button class="btn btn-warning" onclick="editMovie('@movie.Id')">Edit</button>
-                            <button class="btn btn-danger" onclick="deleteMovie('@movie.Id')">Delete</button>
+                            <button type="button" class="btn btn-warning" onclick="editMovie('@movie.Id')">Edit</button>
+                            <button type="button" class="btn btn-danger" onclick="deleteMovie('@movie.Id')">Delete</button>
                         </td>
                     </tr>
                 }
@@ -78,68 +80,6 @@
 
 @await Component.InvokeAsync("MovieModal", Model)
 
-<!-- Modal -->
-@* <div class="modal fade" id="addMovieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Movie</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Your form goes here -->
-                <form method="post" id="addMovieForm" action="/Movie/add">
-
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="Title" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="Description"></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="movieCategories" class="form-label">Categories</label>
-                        <select multiple class="form-control" id="movieCategories" name="SelectedCategories">
-                            @foreach (var category in Model.Categories)
-                            {
-                                <option value="@category.Id">@category.Name</option>
-                            }
-                        </select>
-                        <input type="hidden" id="selectedCategories" name="SelectedCategories" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="movieActors" class="form-label">Actors</label>
-                        <select multiple class="form-control" id="movieActors" name="SelectedActors">
-                            @foreach (var actor in Model.Actors)
-                            {
-                                <option value="@actor.Id">@actor.Name @actor.Surname</option>
-                            }
-                        </select>
-                        <input type="hidden" id="selectedActors" name="SelectedActors" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="movieDirectors" class="form-label">Directors</label>
-                        <select multiple class="form-control" id="movieDirectors" name="SelectedDirectors">
-                            @foreach (var director in Model.Directors)
-                            {
-                                <option value="@director.Id">@director.Name @director.Surname</option>
-                            }
-                        </select>
-                        <input type="hidden" id="selectedDirectors" name="SelectedDirectors" />
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Save Movie</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> *@
-
 <div class="modal fade" id="updateMovieModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -150,21 +90,23 @@
             <div class="modal-body">
                 <!-- Your form goes here -->
                 <form method="post" id="updateMovieForm" action="/Movie/update">
-                    <input type="hidden" id="id1" name="Id1" />
-                    <input type="number" class="form-control" id="id1" name="Id" required>
+                    
+                    <div class="mb-3">
+                        <input hidden type="number" class="form-control" id="id1" name="Id" required>
+                    </div>
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
+                        <label for="title1" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title1" name="Title" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
+                        <label for="description1" class="form-label">Description</label>
                         <textarea class="form-control" id="description1" name="Description"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="movieCategories" class="form-label">Categories</label>
+                        <label for="movieCategories1" class="form-label">Categories</label>
                         <select multiple class="form-control" id="movieCategories1" name="SelectedCategories1">
                             @foreach (var category in Model.Categories)
                             {
@@ -175,7 +117,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="movieActors" class="form-label">Actors</label>
+                        <label for="movieActors1" class="form-label">Actors</label>
                         <select multiple class="form-control" id="movieActors1" name="SelectedActors1">
                             @foreach (var actor in Model.Actors)
                             {
@@ -186,7 +128,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="movieDirectors" class="form-label">Directors</label>
+                        <label for="movieDirectors1" class="form-label">Directors</label>
                         <select multiple class="form-control" id="movieDirectors1" name="SelectedDirectors1">
                             @foreach (var director in Model.Directors)
                             {
@@ -270,41 +212,38 @@
         }
 
         function editMovie(movieId) {
+            // Use DataTables API to find the row based on the movieId
             var table = $('#moviesTable').DataTable();
+            var row = table.row('#' + movieId);
 
-            var row = table.rows().eq(0).filter(function (rowIdx) {
-                return table.row(rowIdx).id() == movieId;
-            });
-
-            if (!row || row.length === 0) {
+            // Check if the row is valid
+            if (!row) {
                 console.error('Row not found for movie ID:', movieId);
                 return;
             }
 
-            var data = table.row(row).data();
+            // Extract movie details from the row
+            var data = row.data();
             if (!data) {
                 console.error('No data found for movie ID:', movieId);
                 return;
             }
 
-            var title = data.Title;
-            var description = data.Description;
-            var categories = data.Categories;
-            var actors = data.Actors;
-            var directors = data.Directors;
+            console.log(data);
 
-            $('#id1').val(data.id);
-            $('#title1').val(title);
-            $('#description1').val(description);
+            // Populate modal fields with extracted data
+            $('#id1').val(data.Id); // Set the ID of the updated movie to id1
+            $('#title1').val(data.Title);
+            $('#description1').val(data.Description);
 
-            $('#movieCategories1').val(categories.split(', ')).trigger('change');
-            $('#movieActors1').val(actors.split(', ')).trigger('change');
-            $('#movieDirectors1').val(directors.split(', ')).trigger('change');
+            // Split and set selected options in the multiselect dropdowns
+            $('#movieCategories1').val(data.Categories.split(', ')).trigger('change');
+            $('#movieActors1').val(data.Actors.split(', ')).trigger('change');
+            $('#movieDirectors1').val(data.Directors.split(', ')).trigger('change');
 
+            // Show the modal for editing
             $('#updateMovieModal').modal('show');
         }
-
-
 
 
         $(document).ready(function () {
@@ -325,6 +264,7 @@
                 //     }
                 // },
                 "columns": [
+                    { "data": "Id" },
                     { "data": "Title" },
                     { "data": "Description" },
                     { "data": "Categories" },

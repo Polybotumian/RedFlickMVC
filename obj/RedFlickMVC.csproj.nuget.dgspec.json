@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Otlar\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\RedFlickMVC.csproj": {}
+    "C:\\Users\\ygtle\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\RedFlickMVC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Otlar\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\RedFlickMVC.csproj": {
+    "C:\\Users\\ygtle\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\RedFlickMVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Otlar\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\RedFlickMVC.csproj",
+        "projectUniqueName": "C:\\Users\\ygtle\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\RedFlickMVC.csproj",
         "projectName": "RedFlickMVC",
-        "projectPath": "C:\\Users\\Otlar\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\RedFlickMVC.csproj",
-        "packagesPath": "C:\\Users\\Otlar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Otlar\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\obj\\",
+        "projectPath": "C:\\Users\\ygtle\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\RedFlickMVC.csproj",
+        "packagesPath": "C:\\Users\\ygtle\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ygtle\\OneDrive\\Belgeler\\GitHub\\RedFlickMVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Otlar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ygtle\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
